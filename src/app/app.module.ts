@@ -7,6 +7,8 @@ import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from '../auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { PermissionsGuard } from 'src/auth/guards/permissions.guard';
+import { DiaryModule } from '../diary/diary.module';
+import { PostModule } from '../blog/blog.module';
 
 @Module({
   imports: [
@@ -16,6 +18,8 @@ import { PermissionsGuard } from 'src/auth/guards/permissions.guard';
     }),
     MongooseModule.forRoot(process.env.MONGO_MEMORIER_URL),
     AuthModule,
+    DiaryModule,
+    PostModule,
   ],
   controllers: [AppController],
   providers: [AppService],

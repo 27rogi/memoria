@@ -1,10 +1,4 @@
-import {
-  Injectable,
-  CanActivate,
-  ExecutionContext,
-  HttpException,
-  HttpStatus,
-} from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext, HttpException, HttpStatus } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 
@@ -13,10 +7,7 @@ export class PermissionsGuard implements CanActivate {
   constructor(private reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const permissions = this.reflector.get<string[]>(
-      'permissions',
-      context.getHandler(),
-    );
+    const permissions = this.reflector.get<string[]>('permissions', context.getHandler());
     if (permissions) {
       const user = context.switchToHttp().getRequest().user;
       if (user.role && user.role.permissions) {

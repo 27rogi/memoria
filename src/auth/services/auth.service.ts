@@ -10,21 +10,13 @@ import { Model } from 'mongoose';
 
 @Injectable()
 export class AuthService {
-  constructor(
-    @InjectModel(Token.name) private tokenModel: Model<TokenDocument>,
-    private usersService: UsersService,
-    private jwtService: JwtService,
-  ) {}
+  constructor(@InjectModel(Token.name) private tokenModel: Model<TokenDocument>, private usersService: UsersService, private jwtService: JwtService) {}
 
   async validateUser(email: string, password: string): Promise<User | null> {
     const user: User | null = await this.usersService.findOne({ email }, false);
     if (user) {
       if (hashPassword(password) === user.password) return user;
-      else
-        throw new HttpException(
-          'Passwords do not match!',
-          HttpStatus.UNAUTHORIZED,
-        );
+      else throw new HttpException('Passwords do not match!', HttpStatus.UNAUTHORIZED);
     } else {
       return null;
     }
@@ -33,10 +25,7 @@ export class AuthService {
   async register(body: any) {
     const user = await this.usersService.findOne({ email: body.email });
     if (user) {
-      throw new HttpException(
-        'User with this email already exists!',
-        HttpStatus.UNAUTHORIZED,
-      );
+      throw new HttpException('User with this email already exists!', HttpStatus.UNAUTHORIZED);
     }
 
     const newUser = await this.usersService.create(body);
@@ -61,19 +50,11 @@ export class AuthService {
     }
 
     const refreshToken = await this.getRefreshToken(token);
-    if (!refreshToken)
-      throw new HttpException('This token expired!', HttpStatus.UNAUTHORIZED);
+    if (!refreshToken) throw new HttpException('This token expired!', HttpStatus.UNAUTHORIZED);
 
-    const user = await this.usersService.findOne(
-      { _id: refreshToken.user },
-      false,
-    );
+    const user = await this.usersService.findOne({ _id: refreshToken.user }, false);
 
-    if (!user)
-      throw new HttpException(
-        'This user does not exist!',
-        HttpStatus.UNAUTHORIZED,
-      );
+    if (!user) throw new HttpException('This user does not exist!', HttpStatus.UNAUTHORIZED);
 
     return this.generateTokens(user);
   }

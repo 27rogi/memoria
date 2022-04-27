@@ -1,3 +1,11 @@
 const excludedKeys = ['-_id', '-__v'];
 
-export { excludedKeys };
+const paginationLabels = {
+  totalDocs: 'totalItems',
+  docs: 'items',
+  page: 'currentPage',
+  nextPage: 'nextPage',
+  prevPage: 'previousPage',
+};
+
+export { excludedKeys, paginationLabels };

@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export type UserDocument = User & Document;
 
@@ -15,7 +15,7 @@ export class User {
   password: string;
 
   @Prop({ required: true, default: 1 })
-  role: number;
+  role: Types.ObjectId[];
 
   @Prop()
   isEnabled: boolean;

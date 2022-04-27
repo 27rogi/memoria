@@ -8,10 +8,7 @@ import { Role, RoleDocument } from '../schemas/role.schema';
 
 @Injectable()
 export class UsersService {
-  constructor(
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
-    @InjectModel(Role.name) private roleModel: Model<RoleDocument>,
-  ) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, @InjectModel(Role.name) private roleModel: Model<RoleDocument>) {}
 
   async findWithPermissions(object: FilterQuery<any> = {}, excludeKeys = true) {
     const exclude = excludeKeys ? excludedKeys : null;
@@ -21,10 +18,7 @@ export class UsersService {
       .then(async (doc) => {
         const newDoc = doc.toObject();
         if (doc) {
-          const role = await this.roleModel.findOne(
-            { roleId: doc.role },
-            '-_id -roleId',
-          );
+          const role = await this.roleModel.findOne({ roleId: doc.role }, '-_id -roleId');
           if (role) {
             (newDoc as any).role = role.toObject();
           }

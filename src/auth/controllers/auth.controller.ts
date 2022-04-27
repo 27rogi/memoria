@@ -1,21 +1,9 @@
-import {
-  Controller,
-  Request,
-  Post,
-  UseGuards,
-  Body,
-  Req,
-  Get,
-  Query,
-} from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
+import { Controller, Post, UseGuards, Body } from '@nestjs/common';
 import { ThrottlerGuard } from '@nestjs/throttler';
-import { createUser } from 'src/users/validation/user.validation';
 import { JoiValidationPipe } from 'src/utils/joi.pipe';
 import { LocalAuthGuard } from '../guards/local.guard';
 import { AuthService } from '../services/auth.service';
-import { login, refresh, register } from '../validation/auth.validation';
-import { JwtAuthGuard } from '../guards/jwt.guard';
+import { login, refresh, register } from '../validations/auth.validation';
 
 @Controller()
 export class AuthController {

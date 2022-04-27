@@ -5,7 +5,7 @@ export type TokenDocument = Token & Document;
 
 @Schema({ toJSON: { virtuals: true } })
 export class Token {
-  @Prop({ required: true })
+  @Prop({ required: true, index: true })
   user: Types.ObjectId;
 
   @Prop({ required: true, trim: true })
